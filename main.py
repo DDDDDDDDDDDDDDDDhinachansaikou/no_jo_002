@@ -9,6 +9,19 @@ import gspread
 from datetime import datetime
 #from storage_module import get_df, save_df
 
+#google sheet 初始化
+SHEET_NAME = "meeting_records"
+secrets = st.secrets["gspread"]
+credentials = service_account.Credentials.from_service_account_info(secrets)
+scoped_credentials = credentials.with_scopes([
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive"
+])
+client = gspread.authorize(scoped_credentials)
+sheet = client.open(SHEET_NAME).sheet1
+
+@st.cache_data(ttl=60)
+
 
 def register_user(user_id, password):
     user_id, password = str(user_id), str(password)
@@ -673,17 +686,7 @@ def render_group_management_ui(user_id):
         st.markdown(f"成員：{', '.join(members)}")
         with st.expander(f"【{gname}】活動／日程表"):
             render_group_events_ui(gname, user_id)
-  SHEET_NAME = "meeting_records"
-    secrets = st.secrets["gspread"]
-    credentials = service_account.Credentials.from_service_account_info(secrets)
-    scoped_credentials = credentials.with_scopes([
-        "https://www.googleapis.com/auth/spreadsheets",
-        "https://www.googleapis.com/auth/drive"
-    ])
-    client = gspread.authorize(scoped_credentials)
-    sheet = client.open(SHEET_NAME).sheet1
 
-    @st.cache_data(ttl=60)
 def get_df():
     records = sheet.get_all_records()
     df = pd.DataFrame(records)
