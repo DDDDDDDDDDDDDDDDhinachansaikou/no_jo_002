@@ -790,7 +790,7 @@ def render_ui():
         uid = st.text_input("新帳號")
         pw = st.text_input("密碼", type="password")
         if st.button("註冊"):
-            from auth import register_user
+            #from auth import register_user
             success, msg = register_user(uid, pw)
             if success:
                 st.success(msg)
@@ -802,7 +802,7 @@ def render_ui():
         uid = st.text_input("帳號")
         pw = st.text_input("密碼", type="password")
         if st.button("登入"):
-            from auth import authenticate_user
+           #from auth import authenticate_user
             if authenticate_user(uid, pw):
                 st.session_state.authenticated = True
                 st.session_state.user_id = uid
@@ -881,5 +881,5 @@ elif time.time() - st.session_state.last_refresh_time > 60:
     st.rerun()
 
 # 主畫面邏輯
-from ui_module import render_ui
+#from ui_module import render_ui
 render_ui()
