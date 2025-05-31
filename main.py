@@ -7,6 +7,7 @@ import plotly.graph_objects as go
 import uuid
 import gspread
 from datetime import datetime
+from google.oauth2 import service_account
 #from storage_module import get_df, save_df
 
 #google sheet 初始化
